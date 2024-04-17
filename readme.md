@@ -1,5 +1,15 @@
 # Stacks, Queues, Sorting & Filtering
 
+Whilst by now we've been using arrays and dynamic arrays (slices in Go), we haven't needed to sort or filter them much, and we haven't really looked at their uses outside of "just holding a collection of things".
+
+You probably don't think of how Ctrl-Z works for "undoing" your last action - it just does. Stacks are used in implementing undo mechanisms in applications. Each action performed by the user is pushed onto a stack, allowing the user to undo actions in reverse order.
+
+You probably don't think too much about how web traffic is handled, but that's a type of queue. In web servers and network protocols, queues are used to manage incoming requests and ensure they are processed in the order they were received.
+
+Here's a great overview from `@girlie_mac` on the differences between stacks and queues:
+
+![alt text](images/ERgy8e_UYAURvPx.jpg)
+
 ## Stacks
 
 A stack is a data structure that follows the *Last In, First Out* (LIFO) principle. 
