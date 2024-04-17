@@ -6,7 +6,7 @@ You probably don't think of how Ctrl-Z works for "undoing" your last action - it
 
 You probably don't think too much about how web traffic is handled, but that's a type of queue. In web servers and network protocols, queues are used to manage incoming requests and ensure they are processed in the order they were received.
 
-Here's a great overview from `@girlie_mac` on the differences between stacks and queues:
+Here's a great overview from `@girlie_mac` on the differences between stacks and queues, using JavaScript:
 
 ![alt text](images/ERgy8e_UYAURvPx.jpg)
 
