@@ -166,3 +166,123 @@ func main() {
 }
 
 ```
+
+### Sorting Examples
+
+#### Sort a slice of strings
+The `sort.Strings` method sorts a slice of strings in increasing order as shown below:
+
+```go
+func main() {
+	s := []string{"James", "John", "Peter", "Andrew", "Matthew", "Luke"}
+	sort.Strings(s)
+	fmt.Println(s) // [Andrew James John Luke Matthew Peter]
+}
+```
+The `sort.StringsAreSorted` method also exists to help you check if a string slice is in its sorted form (that is, in increasing order):
+
+```go
+func main() {
+	s := []string{"James", "John", "Peter", "Andrew", "Matthew", "Luke"}
+	fmt.Println(sort.StringsAreSorted(s)) // false
+	sort.Strings(s)
+	fmt.Println(sort.StringsAreSorted(s)) // true
+}
+```
+
+#### Sort a slice of integers
+To sort a slice of integers, use the `sort.Ints` method as shown below:
+```go
+func main() {
+	intSlice := []int{4, 5, 2, 1, 3, 9, 7, 8, 6}
+	fmt.Println(sort.IntsAreSorted(intSlice)) // false
+	sort.Ints(intSlice)
+	fmt.Println(intSlice) // [1 2 3 4 5 6 7 8 9]
+	fmt.Println(sort.IntsAreSorted(intSlice)) // true
+}
+```
+
+#### Sort a slice of floats
+A slice of float64s may be sorted in increasing order using sort.Float64s:
+
+```go
+func main() {
+	f := []float64{math.NaN(), -0.2, -1.3, 0.9, 4.8, 2.1}
+	fmt.Println(sort.Float64sAreSorted(f)) // false
+	sort.Float64s(f)
+	fmt.Println(f) // [NaN -1.3 -0.2 0.9 2.1 4.8]
+	fmt.Println(sort.Float64sAreSorted(f)) // true
+}
+```
+
+#### Sort a slice of structs
+To sort a slice of structs in Go, you need to use a less function along with either the `sort.Slice` or `sort.SliceStable` methods. Here’s how we can sort a slice of persons according to their names and ages for example:
+
+```go
+type Person struct {
+	name string
+	age  int
+}
+
+func main() {
+	{%raw %}people := []Person{{"Sally", 20}, {"David", 40}, {"Jon", 30}, {"Larry", 25}}{% endraw %}
+	sort.SliceStable(people, func(i, j int) bool {
+		return people[i].age < people[j].age
+	})
+
+	fmt.Println("Sorted by age:", people)
+
+	sort.SliceStable(people, func(i, j int) bool {
+		return people[i].name < people[j].name
+	})
+
+	fmt.Println("Sorted by name:", people)
+}
+```
+
+```
+output
+Sorted by age: [{Sally 20} {Larry 25} {Jon 30} {David 40}]
+Sorted by name: [{David 40} {Jon 30} {Larry 25} {Sally 20}]
+```
+
+Returning true from the less function will cause the element at index i to be sorted to a lower position than index j (The element at index i will come first in the sorted slice). Otherwise, the element at index j will come first if false is returned.
+
+The difference between `sort.Slice` and `sort.SliceStable` is that the latter will keep the original order of equal elements while the former may not.
+
+#### Sort a struct slice using multiple keys
+In the example below, a slice of Person structs is sorted by LastName, and then by FirstName so that if two people have the same LastName, they’ll be ordered according to their FirstName.
+
+```go
+type Person struct {
+	FirstName string
+	LastName  string
+}
+
+func main() {
+	people := []Person{
+		{"Michael", "Jackson"},
+		{"Janet", "Jackson"},
+		{"Keanu", "Reeves"},
+		{"Reverend", "King"},
+		{"Jane", "Austen"},
+	}
+
+	sort.SliceStable(people, func(i, j int) bool {
+		if people[i].LastName != people[j].LastName {
+			return people[i].LastName < people[j].LastName
+		}
+
+		return people[i].FirstName < people[j].FirstName
+	})
+
+	fmt.Println(people)
+}
+```
+
+Notice how Janet Jackson comes before Michael Jackson in the output.
+
+```
+output
+[{Jane Austen} {Janet Jackson} {Michael Jackson} {Reverend King} {Keanu Reeves}]
+```
